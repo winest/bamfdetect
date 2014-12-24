@@ -1,6 +1,7 @@
 from sys import path
 import BAMF_Detect.modules
 import BAMF_Detect.modules.common
+import BAMF_Detect.preprocessors.common
 from os.path import isfile, isdir, join, abspath, dirname, getsize
 from os import write, close, remove
 from pefile import PE
@@ -9,12 +10,16 @@ from zipfile import is_zipfile, ZipFile
 from rarfile import is_rarfile, RarFile
 import tarfile
 from tempfile import mkstemp
+import threading
+from multiprocessing.pool import ThreadPool as Pool
+import Queue
+import time
 
 path.append(dirname(abspath(__file__)))
 
 
 def get_version():
-    return "1.4.1"
+    return "1.5.1"
 
 
 def get_loaded_modules():
@@ -32,20 +37,22 @@ def scan_file_data(file_content, module_filter, only_detect):
     @param only_detect:
     @return:
     """
-    # todo consider modularized data preprocessors
     # todo php deobfuscation preprocessor
     is_pe = False
     try:
         PE(data=file_content)
         is_pe = True
-        if modules.common.is_upx_compressed(file_content):
-            replacement = modules.common.decompress_upx(file_content)
-            if replacement is not None:
-                file_content = replacement
     except KeyboardInterrupt:
         raise
     except:
         is_pe = False
+
+    preprocessor_data = {}
+    for preprocessor in BAMF_Detect.preprocessors.common.Preprocessors.list:
+        data_to_add, file_data = preprocessor.do_processing(file_content)
+        file_content = file_data
+        for key in data_to_add.keys():
+            preprocessor_data[key] = data_to_add[key]
 
     for m in modules.common.Modules.list:
         if not is_pe and m.get_datatype() == "PE":
@@ -59,6 +66,7 @@ def scan_file_data(file_content, module_filter, only_detect):
             results["type"] = m.get_bot_name()
             results["module"] = m.get_module_name()
             results["description"] = m.get_metadata().description
+            results["preprocessor"] = preprocessor_data
             return results
     return None
 
@@ -71,7 +79,10 @@ def write_file_to_temp_file(file_data):
 
 
 def handle_file(file_path, module_filter, only_detect, is_temp_file=False):
-    # todo add handling of archives
+    # todo modular archive handling
+    # todo PE overlay extraction
+    # todo PE resources extraction
+    # todo Installer extraction
     if is_zipfile(file_path):
         # extract each file and handle it
         # todo consider adding archive password support
@@ -152,6 +163,64 @@ def handle_file(file_path, module_filter, only_detect, is_temp_file=False):
                         yield None, r
                     else:
                         yield file_path, r
+
+# async scanning variables
+result_queue = Queue.Queue()
+count_lock = threading.RLock()
+count_queued = 0
+count_finished = 0
+
+
+def async_handle_file(file_path, module_filter, only_detect):
+    global count_lock, count_finished, result_queue
+    try:
+        for fp, r in handle_file(file_path, module_filter, only_detect):
+            result_queue.put((fp, r))
+    finally:
+        with count_lock:
+            count_finished += 1
+
+
+def async_scanning(paths, only_detect, recursive, module_filter, process_count=4):
+    global result_queue, count_lock, count_queued, count_finished
+
+    pool = Pool(processes=process_count)
+
+    # loop paths
+    while len(paths) != 0:
+        file_path = abspath(paths[0])
+        del paths[0]
+        if isfile(file_path):
+            with count_lock:
+                count_queued += 1
+            pool.apply_async(async_handle_file, [file_path, module_filter, only_detect])
+        elif isdir(file_path):
+            for p in iglob(join(file_path, "*")):
+                p = join(file_path, p)
+                if isdir(p) and recursive:
+                    paths.append(p)
+                if isfile(p):
+                    with count_lock:
+                        count_queued += 1
+                    pool.apply_async(async_handle_file, [p, module_filter, only_detect])
+        while True:
+            try:
+                r = result_queue.get_nowait()
+                yield r
+                result_queue.task_done()
+            except Queue.Empty:
+                break
+
+    while True:
+        try:
+            result = result_queue.get_nowait()
+            yield result
+            result_queue.task_done()
+        except Queue.Empty:
+            with count_lock:
+                if count_queued == count_finished:
+                    break
+            time.sleep(0.1)
 
 
 def scan_paths(paths, only_detect, recursive, module_filter):
