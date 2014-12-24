@@ -32,7 +32,7 @@ if __name__ == "__main__":
             parser.print_help()
             exit()
         print "{"
-        for file_path, result in BAMF_Detect.scan_paths(args.path, args.detect, args.recursive, args.module):
+        for file_path, result in BAMF_Detect.async_scanning(args.path, args.detect, args.recursive, args.module):
             to_print = json.dumps({file_path: result}, sort_keys=True, indent=4, separators=(',', ': ')) + ","
             for line in to_print.split("\n"):
                 print "    " + line

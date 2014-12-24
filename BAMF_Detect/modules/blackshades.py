@@ -2,7 +2,7 @@ from common import Modules, data_strings, load_yara_rules, PEParseModule, Module
 import json
 
 
-class alina(PEParseModule):
+class BlackShades(PEParseModule):
     first_value_table = None
     precomputed_list = None
 
@@ -89,4 +89,4 @@ class alina(PEParseModule):
         return results
 
 
-Modules.list.append(alina())
+Modules.list.append(BlackShades())

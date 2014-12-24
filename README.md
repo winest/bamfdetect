@@ -15,12 +15,16 @@ Currently Supported Malware
  - BlackShades
  - Dendroid
  - Dexter
+ - Easter JackPOS
+ - Genome
  - Herpesnet
+ - JackPOS
  - Maazben
  - MadnessPro
  - pBot
  - Pony
  - ProjectHook
+ - vSkimmer
  
 Module Development
 ------------------
@@ -45,7 +49,7 @@ optional arguments:
   -m MODULE, --module MODULE
                         Modules to use, if not definedall modules are used
 
-./bamfdetect.py v1.4.1 by Brian Wallace (@botnet_hunter)
+./bamfdetect.py v1.5.1 by Brian Wallace (@botnet_hunter)
 </pre>
 
 

@@ -5,7 +5,7 @@ class andromeda(PEParseModule):
     def __init__(self):
         md = ModuleMetadata(
             module_name="andromeda",
-            bot_name="Alina",
+            bot_name="Andromeda",
             description="RAT",
             authors=["Brian Wallace (@botnet_hunter)"],
             version="1.0.0",

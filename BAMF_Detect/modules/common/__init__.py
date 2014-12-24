@@ -1,10 +1,6 @@
 from string import printable, ascii_lowercase, ascii_uppercase, digits
 from yara import compile
 from os.path import dirname, join, abspath
-from pefile import PE
-from tempfile import mkstemp
-from os import write, close, remove
-from subprocess import Popen, PIPE
 from re import compile as recompile
 
 
@@ -101,26 +97,6 @@ def data_strings(data, min=4, charset=printable):
         result = ""
     if len(result) >= min:
         yield result
-
-
-def is_upx_compressed(data):
-    pe = PE(data=data)
-    for entry in pe.sections:
-        if entry.Name.startswith("UPX0") or entry.Name.startswith("UPX1"):
-            return True
-    return False
-
-
-def decompress_upx(file_data):
-    file_handle, path = mkstemp()
-    write(file_handle, file_data)
-    close(file_handle)
-    p = Popen(['upx', '-d', path], stdout=PIPE, stderr=PIPE)
-    out, err = p.communicate()
-    with open(path, "rb") as f:
-        file_data = f.read()
-    remove(path)
-    return file_data
 
 
 def is_ip_or_domain(s):
