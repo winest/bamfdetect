@@ -11,7 +11,7 @@ class madness_pro(PEParseModule):
             bot_name="Madness Pro",
             description="Distributed Denial of Service botnet capable of various attacks",
             authors=["Brian Wallace (@botnet_hunter)"],
-            version="1.0.1",
+            version="1.1.0",
             date="March 14, 2014",
             references=[]
         )
@@ -26,7 +26,7 @@ class madness_pro(PEParseModule):
 
     @staticmethod
     def bdecode(key):
-        print key
+        #print key
         key = key.replace("^", "j")
         key = key.replace("#", "j")
         key = key.replace("@", "H")
@@ -38,12 +38,12 @@ class madness_pro(PEParseModule):
     def parse_madness_pro_config(key):
         key = madness_pro.bdecode(key)
         key = key[len("apoKALiplis=uebok"):]
-        if key[0] == key[1] == key[2]:
-            tkey = ""
-            for x in range(0, len(key)):
-                if x % 3 == 0:
-                    tkey += key[x]
-            key = tkey
+        k = key[0]
+        index = 0
+        while k == key[index]:
+            index += 1
+
+        key = "".join([key[i] for i in xrange(len(key)) if (i % index) == 0])
         return {"c2_uri": key[:-len("0fe9bdh")], "mk": key[-len("0fe9bdh"):][:-1]}
 
     def get_bot_information(self, file_data):
