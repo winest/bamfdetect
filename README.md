@@ -49,7 +49,7 @@ optional arguments:
   -m MODULE, --module MODULE
                         Modules to use, if not definedall modules are used
 
-./bamfdetect.py v1.5.1 by Brian Wallace (@botnet_hunter)
+./bamfdetect.py v1.5.3 by Brian Wallace (@botnet_hunter)
 </pre>
 
 

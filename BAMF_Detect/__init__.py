@@ -19,7 +19,7 @@ path.append(dirname(abspath(__file__)))
 
 
 def get_version():
-    return "1.5.1"
+    return "1.5.3"
 
 
 def get_loaded_modules():
@@ -62,7 +62,12 @@ def scan_file_data(file_content, module_filter, only_detect):
         if m.is_bot(file_content):
             results = {}
             if not only_detect:
-                results["information"] = m.get_bot_information(file_content)
+                try:
+                    results["information"] = m.get_bot_information(file_content)
+                except KeyboardInterrupt:
+                    raise
+                except:
+                    results["information"] = {}
             results["type"] = m.get_bot_name()
             results["module"] = m.get_module_name()
             results["description"] = m.get_metadata().description

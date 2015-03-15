@@ -38,6 +38,7 @@ class UPXPreprocessor(Preprocessor):
         )
 
     def _do_processing(self, file_data):
+        # todo Don't run if upx cli tool is not available
         try:
             if is_upx_compressed(file_data):
                 decompressed = decompress_upx(file_data)
