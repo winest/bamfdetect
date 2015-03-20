@@ -2,6 +2,7 @@ from sys import path
 import BAMF_Detect.modules
 import BAMF_Detect.modules.common
 import BAMF_Detect.preprocessors.common
+import BAMF_Detect.postprocessors.common
 from os.path import isfile, isdir, join, abspath, dirname, getsize
 from os import write, close, remove
 from pefile import PE
@@ -19,7 +20,7 @@ path.append(dirname(abspath(__file__)))
 
 
 def get_version():
-    return "1.5.3"
+    return "1.6.0"
 
 
 def get_loaded_modules():
@@ -72,6 +73,14 @@ def scan_file_data(file_content, module_filter, only_detect):
             results["module"] = m.get_module_name()
             results["description"] = m.get_metadata().description
             results["preprocessor"] = preprocessor_data
+
+            postprocessor_data = {}
+            for postprocessor in BAMF_Detect.postprocessors.common.Postprocessors.list:
+                data_to_add, file_data = postprocessor.do_processing(file_content)
+                file_content = file_data
+                for key in data_to_add.keys():
+                    postprocessor_data[key] = data_to_add[key]
+            results["postprocessor"] = postprocessor_data
             return results
     return None
 

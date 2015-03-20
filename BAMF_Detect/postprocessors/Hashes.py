@@ -1,10 +1,10 @@
-from BAMF_Detect.preprocessors.common import Preprocessor, Preprocessors
+from BAMF_Detect.postprocessors.common import Postprocessor, Postprocessors
 import hashlib
 
 
-class HashingPreprocessor(Preprocessor):
+class HashingPreprocessor(Postprocessor):
     def __init__(self):
-        Preprocessor.__init__(
+        Postprocessor.__init__(
             self,
             name="Hashes",
             author="Brian Wallace (@botnet_hunter)",
@@ -22,4 +22,4 @@ class HashingPreprocessor(Preprocessor):
 
         return to_return, file_data
 
-Preprocessors.add_preprocessor(HashingPreprocessor())
+Postprocessors.add_preprocessor(HashingPreprocessor())
