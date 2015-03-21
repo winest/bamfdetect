@@ -13,11 +13,11 @@ class Postprocessor:
     def get_priority(self):
         return self.priority
 
-    def _do_processing(self, file_data):
+    def _do_processing(self, file_data, config):
         raise
 
-    def do_processing(self, file_data):
-        data_to_add, updated_file_data = self._do_processing(file_data)
+    def do_processing(self, file_data, config):
+        data_to_add, updated_file_data = self._do_processing(file_data, config)
         return data_to_add, updated_file_data
 
 
@@ -28,6 +28,6 @@ class Postprocessors:
         pass
 
     @staticmethod
-    def add_preprocessor(preprocessor):
+    def add_postprocessor(preprocessor):
         # todo Add priority sorting
         Postprocessors.list.append(preprocessor)

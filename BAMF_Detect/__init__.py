@@ -76,7 +76,7 @@ def scan_file_data(file_content, module_filter, only_detect):
 
             postprocessor_data = {}
             for postprocessor in BAMF_Detect.postprocessors.common.Postprocessors.list:
-                data_to_add, file_data = postprocessor.do_processing(file_content)
+                data_to_add, file_data = postprocessor.do_processing(file_content, results)
                 file_content = file_data
                 for key in data_to_add.keys():
                     postprocessor_data[key] = data_to_add[key]

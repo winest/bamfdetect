@@ -14,7 +14,7 @@ class HashingPreprocessor(Postprocessor):
             version="1.0.0.0"
         )
 
-    def _do_processing(self, file_data):
+    def _do_processing(self, file_data, results):
         to_return = {}
         to_return["sha256"] = hashlib.sha256(file_data).hexdigest()
         to_return["sha1"] = hashlib.sha1(file_data).hexdigest()
@@ -22,4 +22,4 @@ class HashingPreprocessor(Postprocessor):
 
         return to_return, file_data
 
-Postprocessors.add_preprocessor(HashingPreprocessor())
+Postprocessors.add_postprocessor(HashingPreprocessor())
