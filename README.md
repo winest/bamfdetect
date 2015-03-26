@@ -13,6 +13,7 @@ Currently Supported Malware
  - Andromeda
  - Backoff
  - BlackShades
+ - Cythosia
  - Dendroid
  - Dexter
  - Easter JackPOS
@@ -21,10 +22,14 @@ Currently Supported Malware
  - JackPOS
  - Maazben
  - MadnessPro
+ - njRat
  - pBot
  - Pony
  - ProjectHook
+ - Solar
+ - VertexNet
  - vSkimmer
+ - XtremeRAT
  
 Module Development
 ------------------
@@ -32,10 +37,11 @@ Until I have time to write a guide for writing modules, please use existing modu
  
 Usage
 -----
-<pre>cloud@strife:~/git/BAMF$ ./bamfdetect.py -h
-usage: ./bamfdetect.py [-h] [-v] [-d] [-r] [-l] [-m MODULE] [path [path ...]]
+<pre>cloud@strife:~$ bamfdetect -h
+usage: bamfdetect [-h] [-v] [-d] [-r] [-l] [-m MODULE] [-t THREADS]
+                  [path [path ...]]
 
-Identifies and extracts information from bots and other malware
+Identifies and extracts information from bots
 
 positional arguments:
   path                  Paths to files or directories to scan
@@ -48,8 +54,10 @@ optional arguments:
   -l, --list            List available modules
   -m MODULE, --module MODULE
                         Modules to use, if not definedall modules are used
+  -t THREADS, --threads THREADS
+                        Number of threads to use
 
-./bamfdetect.py v1.5.3 by Brian Wallace (@botnet_hunter)
+bamfdetect v1.6.2 by Brian Wallace (@botnet_hunter)
 </pre>
 
 
