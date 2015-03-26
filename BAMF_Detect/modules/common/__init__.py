@@ -78,10 +78,15 @@ def data_strings_wide(data, min=4, charset=printable):
             result += c
             needs_null = True
             continue
-        needs_null = False
-        if len(result) >= min:
-            yield result
-        result = ""
+        elif needs_null and c != "\x00":
+            if len(result) >= min:
+                yield result
+            result = "" + c
+        else:
+            needs_null = False
+            if len(result) >= min:
+                yield result
+            result = ""
     if len(result) >= min:
         yield result
 

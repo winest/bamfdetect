@@ -1,5 +1,6 @@
 from common import Modules, load_yara_rules, PHPParseModule, ModuleMetadata
 from re import compile as recompile, MULTILINE
+from urllib import urlencode
 
 
 class pbot(PHPParseModule):
@@ -42,6 +43,25 @@ class pbot(PHPParseModule):
             if result is None:
                 return {}
             ret = self.get_config_values(result.group(0))
+            uris = []
+            server = ret['server'] if 'server' in ret else None
+            server_pass = ret['pass'] if "pass" in ret else None
+            port = int(ret['port']) if 'port' in ret else 6667
+            chan = ret['chan'] if 'chan' in ret else None
+            chan2 = ret['chan2'] if 'chan2' in ret else None
+            key = ret['key'] if 'key' in ret else server_pass
+
+            uris.append("pbot://{0}:{1}/?{2}".format(server, port, urlencode({"server_pass": server_pass,
+                                                                              "chan": chan, "channel_pass": key})))
+            if chan2 is not None:
+                uris.append("pbot://{0}:{1}/?{2}".format(server, port, urlencode({"server_pass": server_pass,
+                                                                                  "chan": chan2, "channel_pass": key})))
+            ret['c2s'] = []
+            for uri in uris:
+                ret['c2s'].append({"c2_uri": uri})
+
+        except KeyboardInterrupt:
+            raise
         except:
             pass
         return ret
