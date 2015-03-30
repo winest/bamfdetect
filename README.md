@@ -68,7 +68,7 @@ Requirements
  - yara (python module)
  - rarfile
  - upx (binary)
- 
+ - pycrypto 
  
 Notes
 -----
