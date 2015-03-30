@@ -22,6 +22,7 @@ Currently Supported Malware
  - JackPOS
  - Maazben
  - MadnessPro
+ - Nanocore
  - njRat
  - pBot
  - Pony
@@ -57,7 +58,7 @@ optional arguments:
   -t THREADS, --threads THREADS
                         Number of threads to use
 
-bamfdetect v1.6.2 by Brian Wallace (@botnet_hunter)
+bamfdetect v1.6.3 by Brian Wallace (@botnet_hunter)
 </pre>
 
 
@@ -67,7 +68,7 @@ Requirements
  - yara (python module)
  - rarfile
  - upx (binary)
- 
+ - pycrypto 
  
 Notes
 -----

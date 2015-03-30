@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='bamfdetect',
-      version='1.6.0',
+      version='1.6.3',
       description='Identifies and extracts information from bots and other malware',
       author='Brian Wallace',
       author_email='bwall@ballastsecurity.net',
@@ -12,5 +12,5 @@ setup(name='bamfdetect',
                 'BAMF_Detect.preprocessors.common', 'BAMF_Detect.postprocessors', 'BAMF_Detect.postprocessors.common'],
       package_data={"BAMF_Detect.modules": ["yara/*.yara"]},
       scripts=['bamfdetect'],
-      install_requires=['pefile', 'yara', 'rarfile'],
+      install_requires=['pefile', 'yara', 'rarfile', 'pycrypto'],
      )
