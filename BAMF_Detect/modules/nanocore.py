@@ -116,7 +116,7 @@ class Nanocore(PEParseModule):
             module_name="nanocore",
             bot_name="NanoCore",
             description="RAT",
-            authors=["Brian Wallace (@botnet_hunter)"],
+            authors=["kevthehermit"],  # https://github.com/kevthehermit/RATDecoders/blob/master/NanoCore.py
             version="1.0.0",
             date="March 27, 2015",
             references=[]
