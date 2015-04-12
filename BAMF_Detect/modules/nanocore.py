@@ -213,11 +213,11 @@ class Nanocore(PEParseModule):
             results = {}
         if 'Port' in results and ('Domain' in results or 'Domain1' in results or 'Domain2' in results):
             results['c2s'] = []
-            if 'Domain' in results:
+            if 'Domain' in results and 'Port' in results and results['Domain'] != '':
                 results['c2s'].append({"c2_uri": "tcp://{0}:{1}".format(results['Domain'], results['Port'])})
-            if 'Domain1' in results and 'Port' in results:
+            if 'Domain1' in results and 'Port' in results and results['Domain1'] != '':
                 results['c2s'].append({"c2_uri": "tcp://{0}:{1}".format(results['Domain1'], results['Port'])})
-            if 'Domain2' in results and 'Port' in results:
+            if 'Domain2' in results and 'Port' in results and results['Domain2'] != '':
                 results['c2s'].append({"c2_uri": "tcp://{0}:{1}".format(results['Domain2'], results['Port'])})
 
         return results
