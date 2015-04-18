@@ -67,8 +67,9 @@ def scan_file_data(file_content, module_filter, only_detect):
                     results["information"] = m.get_bot_information(file_content)
                 except KeyboardInterrupt:
                     raise
-                except:
+                except Exception as e:
                     results["information"] = {}
+                    results["exception_details"] = {"message": e.message}
             results["type"] = m.get_bot_name()
             results["module"] = m.get_module_name()
             results["description"] = m.get_metadata().description
