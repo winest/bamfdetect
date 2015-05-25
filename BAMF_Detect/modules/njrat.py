@@ -8,7 +8,7 @@ class njRat(PEParseModule):
             bot_name="njRat",
             description="RAT",
             authors=["Brian Wallace (@botnet_hunter)"],
-            version="1.0.0",
+            version="1.1.0",
             date="March 21, 2015",
             references=[]
         )
@@ -60,7 +60,10 @@ class njRat(PEParseModule):
             potential_ports = [p for p in potential_ports if p > 10]
 
         if len(potential_domains) == 1 and len(potential_ports) == 1:
-            results['c2_uri'] = "tcp://{0}:{1}".format(potential_domains[0], potential_ports[0])
+            if potential_domains[0].endswith(":" + str(potential_ports[0])):
+                results['c2_uri'] = "tcp://{0}".format(potential_domains[0])
+            else:
+                results['c2_uri'] = "tcp://{0}:{1}".format(potential_domains[0], potential_ports[0])
         #else:
         #    print "SHIT {0} {1}".format(potential_domains, potential_ports)
 

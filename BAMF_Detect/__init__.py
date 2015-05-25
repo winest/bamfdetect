@@ -20,7 +20,7 @@ path.append(dirname(abspath(__file__)))
 
 
 def get_version():
-    return "1.6.4"
+    return "1.6.6"
 
 
 def get_loaded_modules():
@@ -67,8 +67,9 @@ def scan_file_data(file_content, module_filter, only_detect):
                     results["information"] = m.get_bot_information(file_content)
                 except KeyboardInterrupt:
                     raise
-                except:
+                except Exception as e:
                     results["information"] = {}
+                    results["exception_details"] = {"message": e.message}
             results["type"] = m.get_bot_name()
             results["module"] = m.get_module_name()
             results["description"] = m.get_metadata().description

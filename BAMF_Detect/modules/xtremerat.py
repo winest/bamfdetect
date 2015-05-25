@@ -213,6 +213,10 @@ class xtreme(PEParseModule):
         if s is not None:
             results = s
 
+        for key in s.keys():
+            s[key] = s[key].decode("ascii", errors="replace")
+
+
         c2s = set()
         for key in [i for i in results.keys() if i.startswith("Domain") and results[i] != ":0"]:
             c2s.add("tcp://" + results[key])

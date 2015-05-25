@@ -99,7 +99,7 @@ def parse_config(raw_config, ver):
 
     # Some plugins drop in here as exe files.
     if 'This program cannot be run' in raw_config:
-        print '    [!] Embedded EXE Plugin found'
+        #print '    [!] Embedded EXE Plugin found'
         raw_config = raw_config.split('BuildTime')[1]
     with open('split.bin', 'wb') as out:
         out.write(raw_config)
