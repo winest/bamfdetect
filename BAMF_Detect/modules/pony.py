@@ -8,7 +8,7 @@ class pony(PEParseModule):
             bot_name="Pony",
             description="",
             authors=["Brian Wallace (@botnet_hunter)"],
-            version="1.0.0",
+            version="1.1.0",
             date="April 14, 2014",
             references=[]
         )

@@ -60,7 +60,7 @@ optional arguments:
   -t THREADS, --threads THREADS
                         Number of threads to use
 
-bamfdetect v1.6.7 by Brian Wallace (@botnet_hunter)
+bamfdetect v1.6.8 by Brian Wallace (@botnet_hunter)
 </pre>
 
 

@@ -9,7 +9,7 @@ class njRat(PEParseModule):
             description="RAT",
             authors=["Brian Wallace (@botnet_hunter)"],
             version="1.1.0",
-            date="March 21, 2015",
+            date="May 27, 2015",
             references=[]
         )
         PEParseModule.__init__(self, md)
@@ -37,14 +37,15 @@ class njRat(PEParseModule):
         # todo Pimp this out with https://github.com/kevthehermit/RATDecoders/blob/master/njRat.py
         results = {}
         wide_strings = [i for i in data_strings_wide(file_data, 1)]
-        if "[endof]" not in wide_strings:
-            return results
-        wide_strings = wide_strings[:wide_strings.index("[endof]")]
+        #if "[endof]" not in wide_strings:
+        #    return results
+        #wide_strings = wide_strings[:wide_strings.index("[endof]")]
 
         start_index = 0
         for x in xrange(len(wide_strings)):
-            if wide_strings[x].startswith("0."):
+            if wide_strings[x].startswith("0.") or "netsh firewall add allowedprogram" in wide_strings[x]:
                 start_index = x
+                break
 
         wide_strings = wide_strings[start_index:]
 
