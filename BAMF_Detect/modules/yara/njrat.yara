@@ -5,12 +5,14 @@ rule njrat{
         date = "2015-05-27"
         description = "Identify njRat"
     strings:
-        $s1 = "netsh firewall add allowedprogram " wide
-        $s2 = " & exit" wide
-        $s3 = "md.exe /k ping 0 & del " wide
-        $s4 = "My.Computer"
-        $s5 = "My.Application"
-        $s6 = "8.0.0.0"
+        $a1 = "netsh firewall add allowedprogram " wide
+        $a2 = "SEE_MASK_NOZONECHECKS" wide
+
+        $b1 = "[TAP]" wide
+        $b2 = " & exit" wide
+
+        $c1 = "md.exe /k ping 0 & del " wide
+        $c2 = "cmd.exe /c ping 127.0.0.1 & del" wide
     condition:
-        all of them
+        1 of ($a*) and 1 of ($b*) and 1 of ($c*)
 }
