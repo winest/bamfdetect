@@ -13,6 +13,7 @@ rule njrat{
 
         $c1 = "md.exe /k ping 0 & del " wide
         $c2 = "cmd.exe /c ping 127.0.0.1 & del" wide
+        $c3 = "cmd.exe /c ping" wide
     condition:
         1 of ($a*) and 1 of ($b*) and 1 of ($c*)
 }
