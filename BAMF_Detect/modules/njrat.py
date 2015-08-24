@@ -60,7 +60,11 @@ class njRat(PEParseModule):
         if len(potential_ports) > 1:
             potential_ports = [p for p in potential_ports if p > 10]
 
-        if len(potential_domains) == 1 and len(potential_ports) == 1:
+        #print potential_ports
+        #print potential_domains
+
+        # todo have less shitty extraction method
+        if len(potential_domains) > 0 and len(potential_ports) > 0:
             if potential_domains[0].endswith(":" + str(potential_ports[0])):
                 results['c2_uri'] = "tcp://{0}".format(potential_domains[0])
             else:
