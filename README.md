@@ -14,6 +14,8 @@ Currently Supported Malware
  - Backoff
  - BlackShades
  - BlackWorm
+ - Bozok
+ - CyberGate
  - Cythosia
  - DarkComet
  - Dendroid
@@ -28,6 +30,7 @@ Currently Supported Malware
  - Nanocore
  - njRat
  - pBot
+ - PoisonIvy
  - Pony
  - ProjectHook
  - Solar
@@ -61,7 +64,7 @@ optional arguments:
   -t THREADS, --threads THREADS
                         Number of threads to use
 
-bamfdetect v1.6.9 by Brian Wallace (@botnet_hunter)
+bamfdetect v1.6.11 by Brian Wallace (@botnet_hunter)
 </pre>
 
 
