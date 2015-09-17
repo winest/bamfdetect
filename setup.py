@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='bamfdetect',
-      version='1.6.8',
+      version='1.6.12',
       description='Identifies and extracts information from bots and other malware',
       author='Brian Wallace',
       author_email='bwall@ballastsecurity.net',

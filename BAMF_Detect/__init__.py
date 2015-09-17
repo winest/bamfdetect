@@ -12,15 +12,15 @@ from rarfile import is_rarfile, RarFile
 import tarfile
 from tempfile import mkstemp
 import threading
-from multiprocessing.pool import ThreadPool as Pool
 import Queue
 import time
+from LimitedThreadPool import LimitedThreadPool as Pool
 
 path.append(dirname(abspath(__file__)))
 
 
 def get_version():
-    return "1.6.11"
+    return "1.6.12"
 
 
 def get_loaded_modules():
