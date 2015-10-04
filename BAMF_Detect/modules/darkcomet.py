@@ -1,11 +1,10 @@
-from common import Modules, data_strings_wide, load_yara_rules, PEParseModule, ModuleMetadata
-from string import lowercase, uppercase, punctuation, digits
-import sys
 import string
-from struct import unpack
-import pefile
 from binascii import *
 
+import pefile
+
+from common import Modules, load_yara_rules, PEParseModule, ModuleMetadata
+from types import StringType
 
 class darkcomet(PEParseModule):
     def __init__(self):
@@ -14,8 +13,8 @@ class darkcomet(PEParseModule):
             bot_name="DarkComet",
             description="RAT",
             authors=["Brian Wallace (@botnet_hunter)", "Kevin Breen <kevin@techanarchy.net>"],
-            version="1.0.0",
-            date="May 26, 2015",
+            version="1.0.1",
+            date="Oct 04, 2015",
             references=[]
         )
         PEParseModule.__init__(self, md)
@@ -129,6 +128,12 @@ class darkcomet(PEParseModule):
 
     def get_bot_information(self, file_data):
         results = darkcomet.run(file_data)
+
+        # Sanitize
+        for key in results.keys():
+            if type(results[key]) is StringType:
+                results[key] = results[key].encode("string-escape")
+
         if "NETDATA" in results and len(results["NETDATA"]) > 0:
             c2s = results["NETDATA"].split("|")
             results['c2s'] = []
