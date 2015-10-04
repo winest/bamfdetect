@@ -35,5 +35,11 @@ if __name__ == "__main__":
             exit()
         for file_path, result in BAMF_Detect.async_scanning(args.path, args.detect, args.recursive, args.module,
                                                             process_count=args.threads):
-            to_print = json.dumps({file_path: result}) + ","
-            print to_print
+            try:
+                to_print = json.dumps({file_path: result}) + ","
+                print to_print
+            except KeyboardInterrupt:
+                raise
+            except:
+                # todo figure out a good way to log these errors
+                pass
