@@ -58,6 +58,11 @@ class PEParseModule(BinParseModule):
         BinParseModule.__init__(self, metadata, "PE")
 
 
+class ELFParseModule(BinParseModule):
+    def __init__(self, metadata):
+        BinParseModule.__init__(self, metadata, "ELF")
+
+
 class PHPParseModule(BinParseModule):
     def __init__(self, metadata):
         BinParseModule.__init__(self, metadata, "PHP")
