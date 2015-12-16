@@ -15,12 +15,14 @@ import threading
 import Queue
 import time
 from LimitedThreadPool import LimitedThreadPool as Pool
+import traceback
+import sys
 
 path.append(dirname(abspath(__file__)))
 
 
 def get_version():
-    return "1.6.13"
+    return "1.6.15"
 
 
 def get_loaded_modules():
@@ -68,8 +70,9 @@ def scan_file_data(file_content, module_filter, only_detect):
                 except KeyboardInterrupt:
                     raise
                 except Exception as e:
+                    exc_type, exc_value, exc_traceback = sys.exc_info()
                     results["information"] = {}
-                    results["exception_details"] = {"message": e.message}
+                    results["exception_details"] = {"message": e.message, "traceback": traceback.format_tb(exc_traceback)}
             results["type"] = m.get_bot_name()
             results["module"] = m.get_module_name()
             results["description"] = m.get_metadata().description

@@ -9,6 +9,7 @@ Currently, only a preprocess for UPX files is supported.  This preprocessor writ
 
 Currently Supported Malware
 ---------------------------
+ - Abaddon
  - Alina
  - Andromeda
  - Backoff
@@ -22,6 +23,8 @@ Currently Supported Malware
  - Dexter
  - DiamondFox
  - Easter JackPOS
+ - Elise
+ - Evora
  - Genome
  - GlassRAT
  - Herpesnet
@@ -65,7 +68,7 @@ optional arguments:
   -t THREADS, --threads THREADS
                         Number of threads to use
 
-bamfdetect v1.6.13 by Brian Wallace (@botnet_hunter)
+bamfdetect v1.6.15 by Brian Wallace (@botnet_hunter)
 </pre>
 
 
