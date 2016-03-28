@@ -1,4 +1,4 @@
-from common import Modules, load_yara_rules, PEParseModule, ModuleMetadata
+from .common import Modules, load_yara_rules, PEParseModule, ModuleMetadata
 from string import printable
 from struct import unpack
 
@@ -50,7 +50,7 @@ class PoisonIvy(PEParseModule):
 
     @staticmethod
     def stringPrintable(line):
-        return filter(lambda x: x in printable, line)
+        return [x for x in line if x in printable]
 
     @staticmethod
     def firstSplit(data):

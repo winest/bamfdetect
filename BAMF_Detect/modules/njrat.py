@@ -1,4 +1,4 @@
-from common import Modules, data_strings_wide, load_yara_rules, PEParseModule, ModuleMetadata, is_ip_or_domain
+from .common import Modules, data_strings_wide, load_yara_rules, PEParseModule, ModuleMetadata, is_ip_or_domain
 
 
 class njRat(PEParseModule):
@@ -42,7 +42,7 @@ class njRat(PEParseModule):
         #wide_strings = wide_strings[:wide_strings.index("[endof]")]
 
         start_index = 0
-        for x in xrange(len(wide_strings)):
+        for x in range(len(wide_strings)):
             if wide_strings[x].startswith("0.") or "netsh firewall add allowedprogram" in wide_strings[x]:
                 start_index = x
                 break

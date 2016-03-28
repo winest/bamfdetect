@@ -1,4 +1,4 @@
-from common import Modules, data_strings, load_yara_rules, PEParseModule, ModuleMetadata, is_ip_or_domain
+from .common import Modules, data_strings, load_yara_rules, PEParseModule, ModuleMetadata, is_ip_or_domain
 
 
 class glassrat(PEParseModule):

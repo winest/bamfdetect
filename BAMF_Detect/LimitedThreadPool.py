@@ -1,5 +1,5 @@
 from multiprocessing.pool import ThreadPool
-import Queue
+import queue
 
 
 class LimitedThreadPool(ThreadPool):
@@ -8,7 +8,7 @@ class LimitedThreadPool(ThreadPool):
         ThreadPool.__init__(self, processes, initializer, initargs)
 
     def _setup_queues(self):
-        self._inqueue = Queue.Queue(self._max_queue_size)
-        self._outqueue = Queue.Queue()
+        self._inqueue = queue.Queue(self._max_queue_size)
+        self._outqueue = queue.Queue()
         self._quick_put = self._inqueue.put
         self._quick_get = self._outqueue.get

@@ -1,4 +1,4 @@
-from common import Modules, data_strings_wide, load_yara_rules, PEParseModule, ModuleMetadata, is_ip_or_domain
+from .common import Modules, data_strings_wide, load_yara_rules, PEParseModule, ModuleMetadata, is_ip_or_domain
 
 
 class BlackWorm(PEParseModule):
@@ -27,7 +27,7 @@ class BlackWorm(PEParseModule):
     def get_bot_information(self, file_data):
         results = {}
         wide_strings = [i for i in data_strings_wide(file_data)]
-        for x in xrange(len(wide_strings)):
+        for x in range(len(wide_strings)):
             s = wide_strings[x]
             if is_ip_or_domain(s):
                 ip = s

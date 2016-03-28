@@ -1,4 +1,4 @@
-from common import Modules, data_strings, load_yara_rules, PEParseModule, ModuleMetadata, is_ip_or_domain, RC4
+from .common import Modules, data_strings, load_yara_rules, PEParseModule, ModuleMetadata, is_ip_or_domain, RC4
 from string import ascii_uppercase, ascii_lowercase, digits, punctuation
 from pefile import PE
 
@@ -28,7 +28,7 @@ class maazben(PEParseModule):
         encrypted_section = file_data.rfind("\x44\x6d\x47\x00")
         if encrypted_section == -1:
             pe = PE(data=file_data)
-            for x in xrange(len(pe.sections)):
+            for x in range(len(pe.sections)):
                 for s in data_strings(pe.get_data(pe.sections[x].VirtualAddress), 8, charset=ascii_uppercase + ascii_lowercase + digits + punctuation):
                     if s.startswith("http://") and s != "http://":
                         if "c2s" not in results:
@@ -44,7 +44,7 @@ class maazben(PEParseModule):
 
             if encryption_key is not None:
                 rc4 = RC4(encryption_key)
-                decrypted = "".join([chr(rc4.next() ^ ord(c)) for c in file_data[encrypted_section:]])
+                decrypted = "".join([chr(next(rc4) ^ ord(c)) for c in file_data[encrypted_section:]])
                 for s in data_strings(decrypted, 8, charset=ascii_uppercase + ascii_lowercase + digits + punctuation):
                     if s.startswith("http://") and s != "http://":
                         if "c2s" not in results:

@@ -1,4 +1,4 @@
-from common import Modules, data_strings_wide, load_yara_rules, PEParseModule, ModuleMetadata
+from .common import Modules, data_strings_wide, load_yara_rules, PEParseModule, ModuleMetadata
 
 
 class Cythosia(PEParseModule):

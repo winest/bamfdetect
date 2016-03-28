@@ -1,4 +1,4 @@
-from common import Modules, load_yara_rules, PEParseModule, ModuleMetadata
+from .common import Modules, load_yara_rules, PEParseModule, ModuleMetadata
 from pefile import PE, RESOURCE_TYPE
 
 
@@ -36,9 +36,9 @@ class Bozok(PEParseModule):
             rt_string_idx = [
                 entry.id for entry in
                 pe.DIRECTORY_ENTRY_RESOURCE.entries].index(RESOURCE_TYPE['RT_RCDATA'])
-        except ValueError, e:
+        except ValueError as e:
             return None
-        except AttributeError, e:
+        except AttributeError as e:
             return None
 
         rt_string_directory = pe.DIRECTORY_ENTRY_RESOURCE.entries[rt_string_idx]
@@ -81,7 +81,7 @@ class Bozok(PEParseModule):
         if results is None:
             return {}
 
-        for key in results.keys():
+        for key in list(results.keys()):
             results[key] = results[key].encode("string-escape")
 
         if "Domain" in results and "Port" in results:

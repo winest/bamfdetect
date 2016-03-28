@@ -1,4 +1,4 @@
-from common import Modules, data_strings, load_yara_rules, PEParseModule, ModuleMetadata
+from .common import Modules, data_strings, load_yara_rules, PEParseModule, ModuleMetadata
 from base64 import b64decode
 from re import match
 from string import ascii_lowercase, ascii_uppercase, digits
@@ -43,7 +43,7 @@ class madness_pro(PEParseModule):
         while k == key[index]:
             index += 1
 
-        key = "".join([key[i] for i in xrange(len(key)) if (i % index) == 0])
+        key = "".join([key[i] for i in range(len(key)) if (i % index) == 0])
         return {"c2_uri": key[:-len("0fe9bdh")], "mk": key[-len("0fe9bdh"):][:-1]}
 
     def get_bot_information(self, file_data):
@@ -52,7 +52,7 @@ class madness_pro(PEParseModule):
             if s[:len("YXBvS0")] == "YXBvS0":
                 c = madness_pro.parse_madness_pro_config(s)
                 for key in c:
-                    results[key] = unicode(c[key], errors='ignore')
+                    results[key] = str(c[key], errors='ignore')
             else:
                 try:
                     ret = madness_pro.bdecode(s)

@@ -1,4 +1,4 @@
-from common import Modules, data_strings, load_yara_rules, PEParseModule, ModuleMetadata
+from .common import Modules, data_strings, load_yara_rules, PEParseModule, ModuleMetadata
 import re
 import zlib
 from struct import unpack

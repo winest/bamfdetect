@@ -1,4 +1,4 @@
-from common import Modules, data_strings, load_yara_rules, AndroidParseModule, ModuleMetadata
+from .common import Modules, data_strings, load_yara_rules, AndroidParseModule, ModuleMetadata
 from base64 import b64decode
 from string import printable
 

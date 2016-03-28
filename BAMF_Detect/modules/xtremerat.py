@@ -1,4 +1,4 @@
-from common import Modules, load_yara_rules, PEParseModule, ModuleMetadata
+from .common import Modules, load_yara_rules, PEParseModule, ModuleMetadata
 from struct import unpack
 import pefile
 
@@ -47,7 +47,7 @@ class xtreme(PEParseModule):
     @staticmethod
     def rc4crypt(data, key):  # modified for bad implemented key length
         x = 0
-        box = range(256)
+        box = list(range(256))
         for i in range(256):
             x = (x + box[i] + ord(key[i % 6])) % 256
             box[i], box[x] = box[x], box[i]
@@ -70,9 +70,9 @@ class xtreme(PEParseModule):
               rt_string_idx = [
               entry.id for entry in
               pe.DIRECTORY_ENTRY_RESOURCE.entries].index(pefile.RESOURCE_TYPE['RT_RCDATA'])
-            except ValueError, e:
+            except ValueError as e:
                 return None
-            except AttributeError, e:
+            except AttributeError as e:
                 return None
             rt_string_directory = pe.DIRECTORY_ENTRY_RESOURCE.entries[rt_string_idx]
             for entry in rt_string_directory.directory.entries:
@@ -213,12 +213,12 @@ class xtreme(PEParseModule):
         if s is not None:
             results = s
 
-        for key in s.keys():
+        for key in list(s.keys()):
             s[key] = s[key].decode("ascii", errors="replace")
 
 
         c2s = set()
-        for key in [i for i in results.keys() if i.startswith("Domain") and results[i] != ":0"]:
+        for key in [i for i in list(results.keys()) if i.startswith("Domain") and results[i] != ":0"]:
             c2s.add("tcp://" + results[key])
 
         if len(c2s) > 0:

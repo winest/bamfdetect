@@ -3,8 +3,7 @@ from binascii import *
 
 import pefile
 
-from common import Modules, load_yara_rules, PEParseModule, ModuleMetadata
-from types import StringType
+from .common import Modules, load_yara_rules, PEParseModule, ModuleMetadata
 
 class darkcomet(PEParseModule):
     def __init__(self):
@@ -29,7 +28,7 @@ class darkcomet(PEParseModule):
     @staticmethod
     def rc4crypt(data, key):
         x = 0
-        box = range(256)
+        box = list(range(256))
         for i in range(256):
             x = (x + box[i] + ord(key[i % len(key)])) % 256
             box[i], box[x] = box[x], box[i]
@@ -54,7 +53,7 @@ class darkcomet(PEParseModule):
             key, value = entries.split('=')
             key = key.strip()
             value = value.rstrip()[1:-1]
-            clean_value = filter(lambda x: x in string.printable, value)
+            clean_value = [x for x in value if x in string.printable]
             config[key] = clean_value
             config["Version"] = enckey[:-4]
         return config
@@ -106,13 +105,13 @@ class darkcomet(PEParseModule):
                 data = pe.get_memory_mapped_image()[data_rva:data_rva+size]
                 config = darkcomet.v51_data(data, key)
 
-            elif str(entry.name) in config.keys():
+            elif str(entry.name) in list(config.keys()):
 
                 data_rva = entry.directory.entries[0].data.struct.OffsetToData
                 size = entry.directory.entries[0].data.struct.Size
                 data = pe.get_memory_mapped_image()[data_rva:data_rva+size]
                 dec = darkcomet.rc4crypt(unhexlify(data), key)
-                config[str(entry.name)] = filter(lambda x: x in string.printable, dec)
+                config[str(entry.name)] = [x for x in dec if x in string.printable]
                 config["Version"] = key[:-4]
         return config
 
@@ -130,8 +129,8 @@ class darkcomet(PEParseModule):
         results = darkcomet.run(file_data)
 
         # Sanitize
-        for key in results.keys():
-            if type(results[key]) is StringType:
+        for key in list(results.keys()):
+            if isinstance(results[key], str):
                 results[key] = results[key].encode("string-escape")
 
         if "NETDATA" in results and len(results["NETDATA"]) > 0:

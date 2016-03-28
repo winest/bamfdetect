@@ -1,6 +1,6 @@
-from common import Modules, load_yara_rules, PHPParseModule, ModuleMetadata
+from .common import Modules, load_yara_rules, PHPParseModule, ModuleMetadata
 from re import compile as recompile, MULTILINE
-from urllib import urlencode
+from urllib.parse import urlencode
 
 
 class pbot(PHPParseModule):
@@ -30,7 +30,7 @@ class pbot(PHPParseModule):
             results = p.findall(config)
             ret = {}
             for pair in results:
-                ret[unicode(pair[0], errors='ignore')] = unicode(pair[1], errors='ignore')
+                ret[str(pair[0], errors='ignore')] = str(pair[1], errors='ignore')
             return ret
         except:
             return {}

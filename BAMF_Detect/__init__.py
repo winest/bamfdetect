@@ -12,9 +12,9 @@ from rarfile import is_rarfile, RarFile
 import tarfile
 from tempfile import mkstemp
 import threading
-import Queue
+import queue
 import time
-from LimitedThreadPool import LimitedThreadPool as Pool
+from .LimitedThreadPool import LimitedThreadPool as Pool
 import traceback
 import sys
 
@@ -54,7 +54,7 @@ def scan_file_data(file_content, module_filter, only_detect):
     for preprocessor in BAMF_Detect.preprocessors.common.Preprocessors.list:
         data_to_add, file_data = preprocessor.do_processing(file_content)
         file_content = file_data
-        for key in data_to_add.keys():
+        for key in list(data_to_add.keys()):
             preprocessor_data[key] = data_to_add[key]
 
     for m in modules.common.Modules.list:
@@ -72,7 +72,7 @@ def scan_file_data(file_content, module_filter, only_detect):
                 except Exception as e:
                     exc_type, exc_value, exc_traceback = sys.exc_info()
                     results["information"] = {}
-                    results["exception_details"] = {"message": e.message, "traceback": traceback.format_tb(exc_traceback)}
+                    results["exception_details"] = {"message": str(e), "traceback": traceback.format_tb(exc_traceback)}
             results["type"] = m.get_bot_name()
             results["module"] = m.get_module_name()
             results["description"] = m.get_metadata().description
@@ -82,7 +82,7 @@ def scan_file_data(file_content, module_filter, only_detect):
             for postprocessor in BAMF_Detect.postprocessors.common.Postprocessors.list:
                 data_to_add, file_data = postprocessor.do_processing(file_content, results)
                 file_content = file_data
-                for key in data_to_add.keys():
+                for key in list(data_to_add.keys()):
                     postprocessor_data[key] = data_to_add[key]
             results["postprocessor"] = postprocessor_data
             return results
@@ -183,7 +183,7 @@ def handle_file(file_path, module_filter, only_detect, is_temp_file=False):
                         yield file_path, r
 
 # async scanning variables
-result_queue = Queue.Queue()
+result_queue = queue.Queue()
 count_lock = threading.RLock()
 count_queued = 0
 count_finished = 0
@@ -226,7 +226,7 @@ def async_scanning(paths, only_detect, recursive, module_filter, process_count=4
                 r = result_queue.get_nowait()
                 yield r
                 result_queue.task_done()
-            except Queue.Empty:
+            except queue.Empty:
                 break
 
     while True:
@@ -234,7 +234,7 @@ def async_scanning(paths, only_detect, recursive, module_filter, process_count=4
             result = result_queue.get_nowait()
             yield result
             result_queue.task_done()
-        except Queue.Empty:
+        except queue.Empty:
             with count_lock:
                 if count_queued == count_finished:
                     break

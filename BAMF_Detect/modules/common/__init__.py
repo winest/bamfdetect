@@ -76,6 +76,7 @@ def data_strings_wide(data, min=4, charset=printable):
     result = ""
     needs_null = False
     for c in data:
+        c = str(c)
         if needs_null and c == "\x00":
             needs_null = False
             continue
@@ -99,6 +100,7 @@ def data_strings_wide(data, min=4, charset=printable):
 def data_strings(data, min=4, charset=printable):
     result = ""
     for c in data:
+        c = str(c)
         if c in charset:
             result += c
             continue
@@ -208,10 +210,10 @@ class RC4:
         self.state[self.j] = t
 
     def __init__(self, key):
-        self.state = [i for i in xrange(256)]
+        self.state = [i for i in range(256)]
 
         self.j = 0
-        for i in xrange(256):
+        for i in range(256):
             self.i = i
             self.j = (self.j + self.state[self.i] + ord(key[self.i % len(key)])) % 256
             self.swap()
@@ -219,7 +221,7 @@ class RC4:
         self.i = 0
         self.j = 0
 
-    def next(self):
+    def __next__(self):
         self.i = (self.i + 1) % 256
         self.j = (self.j + self.state[self.i]) % 256
         self.swap()

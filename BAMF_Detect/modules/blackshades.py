@@ -1,4 +1,4 @@
-from common import Modules, data_strings, load_yara_rules, PEParseModule, ModuleMetadata
+from .common import Modules, data_strings, load_yara_rules, PEParseModule, ModuleMetadata
 import json
 
 
@@ -33,7 +33,7 @@ class BlackShades(PEParseModule):
 
     def decrypt_configuration(self, hex):
         if self.precomputed_list is None:
-            self.precomputed_list = [((a * 1140671485 + 12820163) & 0xffffff) >> 16 for a in xrange(0xffffff)]
+            self.precomputed_list = [((a * 1140671485 + 12820163) & 0xffffff) >> 16 for a in range(0xffffff)]
         if self.first_value_table is None:
             self.first_value_table = {}
 
@@ -41,12 +41,12 @@ class BlackShades(PEParseModule):
         tail = ascii[0x20:]
 
         pre_check = []
-        for x in xrange(3):
+        for x in range(3):
             pre_check.append(ord(tail[x]) ^ 0x0c)
 
         if pre_check[0] not in self.first_value_table:
             t = pre_check[0]
-            self.first_value_table[t] = [a for a in xrange(len(self.precomputed_list)) if self.precomputed_list[a] == t]
+            self.first_value_table[t] = [a for a in range(len(self.precomputed_list)) if self.precomputed_list[a] == t]
         possible_values = self.first_value_table[pre_check[0]]
 
         for x in possible_values:

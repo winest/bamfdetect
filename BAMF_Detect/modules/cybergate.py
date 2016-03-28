@@ -1,4 +1,4 @@
-from common import Modules, load_yara_rules, PEParseModule, ModuleMetadata
+from .common import Modules, load_yara_rules, PEParseModule, ModuleMetadata
 from pefile import PE, RESOURCE_TYPE
 from string import printable
 
@@ -35,7 +35,7 @@ class CyberGate(PEParseModule):
         encoded = bytearray(data)
         for i in range(len(encoded)):
             encoded[i] ^= key
-        return filter(lambda x: x in printable, str(encoded))
+        return [x for x in str(encoded) if x in printable]
 
     @staticmethod
     def config_extract(raw_data):
@@ -132,7 +132,7 @@ class CyberGate(PEParseModule):
             ports = results["Port"].split("|")
             c2s = []
 
-            for i in xrange(len(domains)):
+            for i in range(len(domains)):
                 if len(domains[i].strip()) == 0 or len(ports[i].strip()) == 0:
                     continue
                 c2s.append({"c2_uri": "tcp://{0}:{1}/".format(domains[i], ports[i])})

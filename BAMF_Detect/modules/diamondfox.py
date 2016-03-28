@@ -1,4 +1,4 @@
-from common import Modules, data_strings, load_yara_rules, PEParseModule, ModuleMetadata, is_ip_or_domain
+from .common import Modules, data_strings, load_yara_rules, PEParseModule, ModuleMetadata, is_ip_or_domain
 import pefile
 
 
@@ -53,7 +53,7 @@ class diamondfox(PEParseModule):
                         if k not in config_dict:
                             continue
                         data = config_dict[k]
-                        config_dict[k] = "".join([chr(xor ^ ord(data[i])) for i in xrange(len(data))])
+                        config_dict[k] = "".join([chr(xor ^ ord(data[i])) for i in range(len(data))])
                         config_dict[k] = "".join([chr(xor ^ ord(i)) for i in data])
 
                     results["raw_config"] = config_dict
@@ -93,7 +93,7 @@ class diamondfox(PEParseModule):
                     if k not in config_dict:
                         continue
                     data = config_dict[k]
-                    config_dict[k] = "".join([chr(xor ^ ord(data[i])) for i in xrange(len(data))])
+                    config_dict[k] = "".join([chr(xor ^ ord(data[i])) for i in range(len(data))])
                     config_dict[k] = "".join([chr(xor ^ ord(i)) for i in data])
 
                 results["raw_config"] = config_dict

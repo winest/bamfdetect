@@ -1,5 +1,5 @@
-from common import Modules, data_strings_wide, load_yara_rules, PEParseModule, ModuleMetadata
-from string import lowercase, uppercase, punctuation, digits
+from .common import Modules, data_strings_wide, load_yara_rules, PEParseModule, ModuleMetadata
+from string import ascii_lowercase, ascii_uppercase, punctuation, digits
 
 
 class projecthook(PEParseModule):

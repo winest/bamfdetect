@@ -1,4 +1,4 @@
-from common import Modules, data_strings, load_yara_rules, PEParseModule, ModuleMetadata, is_ip_or_domain
+from .common import Modules, data_strings, load_yara_rules, PEParseModule, ModuleMetadata, is_ip_or_domain
 from pefile import PE
 
 
@@ -27,7 +27,7 @@ class backoff(PEParseModule):
         gate = None
         server = None
         pe = PE(data=file_data)
-        for x in xrange(len(pe.sections)):
+        for x in range(len(pe.sections)):
             for s in data_strings(pe.get_data(pe.sections[x].VirtualAddress)):
                 if s.find(".php") != -1:
                     if s[0] != "/":
